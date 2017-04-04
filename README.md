@@ -11,7 +11,8 @@ Step 3 : Give the service name and select the standard plan, you can see more ab
 Step 4 : Once you create the service it will redirect you the homepage of the service. There click on the "Service Credentials" to get the username and password to access the toneanalyzer api.
 ![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/ToneAnalyzer/b_3.png)
 
-Step 5 : Goto the [program](https://github.com/shyampurk/brandcomp/blob/master/Block/main.js) and enter the username and password that you got from step 4 in the following lines<br>
-	username - 12 <br>
-	password - 13 <br>
+Step 5 : Goto the [program](https://github.com/shyampurk/brandcomp/blob/master/Block/main.js) and enter the username and password that you got from "step4" in the following lines<br>
+	username - line number 12 <br>
+	password - line number 13 <br>
+	
 You can check the following [link](https://www.ibm.com/watson/developercloud/tone-analyzer/api/v3/) to learn how to use the Toneanalyzer using curl/node/python/java.	
