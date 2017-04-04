@@ -9,8 +9,8 @@ export default (request) => {
 	var message_dict = {};
 	
     const basicAuth = require('codec/auth');
-    var username = '9dbcd599-cd60-4196-8a43-8e2ef7f5af1d'; // Username for the conversation api
-    var password = 'U4ptOB82jfp4';                         // password for the conversation api
+    var username = '9dbcd599-cd60-4196-8a43-8e2ef7f5af1d'; // Username for the toneanalyzer api
+    var password = 'U4ptOB82jfp4';                         // password for the toneanalyzer api
     var auth = basicAuth.basic(username,password);
     
     var TimeLimit = 2;
@@ -40,11 +40,9 @@ export default (request) => {
     var DisgustAvgScore = 0;
     var JoyAvgScore = 0;
     var xhrfetchcalllist = [];   
-    var tweetlength = request.message.twitterfeed.length;
-    // Pubnub Publish channel on which we will broadcast the messages.
-    var pubchannel = "realtimebrandmonitor_resp";
-    var twitterfeed = request.message.twitterfeed;
-    var brandname =  request.message.brandname; 
+    var tweetlength = request.message.twitterfeed.length; // number of tweets
+    var twitterfeed = request.message.twitterfeed; // messages from twitter
+    var brandname =  request.message.brandname; // brandname
     
             
    
