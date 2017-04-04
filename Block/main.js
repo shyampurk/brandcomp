@@ -59,18 +59,18 @@ export default (request) => {
 	*/ 
     function sendToApp(brandname)
     {
-        console.log("SENDTOAPP",brandname);
+        console.log("SENDTOAPP FUNCTION, and the brandname is ",brandname);
         return db.get(brandname).then((database_value) => {
             console.log(" DATA IN DATABASE -- >",database_value);
             var database_tweetscore = database_value.tweetscore;
             var tweetscore = {};
+            // calculating the average tweet score.
             for (var key in database_tweetscore){
                 tweetscore[key] = database_tweetscore[key]/tweetlength;
             }
             console.log("AFTER AVERAGE CALCULATION",tweetscore)
             request.message.tonescore = tweetscore;
             delete request.message.twitterfeed;
-            console.log(request.message,"INSIDE SENDTOAPP");
             return request;
             });
     }
@@ -94,7 +94,7 @@ export default (request) => {
                     {
                      const body = JSON.parse(responses[j].body);
                         
-                        
+                        // Iterating through the tweets
                         for (var t=0;t<body.document_tone.tone_categories[0].tones.length;t++)
                         {
                             var scoredetails = body.document_tone.tone_categories[0].tones[t]
@@ -132,8 +132,9 @@ export default (request) => {
                         console.log("INDIVIDUAL",tonescoreDict);
                          
                     }
-                    console.log("FINAL",tonescoreDict);
 
+                    console.log("FINAL TONE SCORE",tonescoreDict);
+                    // storing the tonescore for that particular brandname in the database.
                     db.set(brandname,tonescoreDict);
                     var tweetscore_dict = {};
                     var tweetscore_apicall = {};
@@ -141,6 +142,7 @@ export default (request) => {
                     tweetscore_dict = tonescoreDict.tweetscore;
 
                     console.log(tweetscore_dict,tweetlength,"TWEET SCORE, TWEET LENGTH");
+                    // Calculating the average of the tweet score
                     for (var tweetkey in tweetscore_dict){
                         tweetscore_apicall[tweetkey] = tweetscore_dict[tweetkey]/tweetlength;
                     }
