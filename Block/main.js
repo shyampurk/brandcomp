@@ -179,10 +179,11 @@ export default (request) => {
             // we will give the value that we got in the previous call.
              if (diff_inminutes>=TimeLimit)
             {
+                console.log("15 MIN ONCE");
                 return api_call().then((x)=>{
                     return request;
                 });                
-                console.log("15 MIN ONCE");
+                
             }
             else{
                 
@@ -195,10 +196,11 @@ export default (request) => {
         // if the brandname is not in the database, we will do a fresh toneanalyzer api call to get
         // the tweet score for that new brandname.
         else{
+            console.log("FOR THE FIRST TIME");
             return api_call().then((x)=>{
                     return request;
                 }); 
-            console.log("FOR THE FIRST TIME");                 
+                             
         } 
         return request.ok();  
     });
