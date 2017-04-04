@@ -1,9 +1,9 @@
 export default (request) => {
     // Required modules
     const db = require("kvstore"); // Database module
-    const pubnub = require("pubnub"); // xmlHttp request module
-    const xhr = require("xhr");
-    const Promise = require('promise');
+    const pubnub = require("pubnub"); // pubnub module
+    const xhr = require("xhr"); // xmlHttp request module
+    const Promise = require('promise'); // promise module
     
     var date_const = new Date(); // Date constructor
 	var message_dict = {};
@@ -19,6 +19,7 @@ export default (request) => {
 
 
     console.log(auth);
+    // URL for the toneanalyzer
     const url = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&tones=emotion";
 
     // http options for the rest call.
@@ -32,6 +33,7 @@ export default (request) => {
             "body":{}
     };
     
+    // variables required 
     var AngerAvgScore = 0;
     var FearAvgScore = 0;
     var SadnessAvgScore = 0;
@@ -39,6 +41,7 @@ export default (request) => {
     var JoyAvgScore = 0;
     var xhrfetchcalllist = [];   
     var tweetlength = request.message.twitterfeed.length;
+    // Pubnub Publish channel on which we will broadcast the messages.
     var pubchannel = "realtimebrandmonitor_resp";
     var twitterfeed = request.message.twitterfeed;
     var brandname =  request.message.brandname; 
@@ -48,26 +51,35 @@ export default (request) => {
     
     var tonescoreDict = {"AngerAvgScore":0,"FearAvgScore":0,"SadnessAvgScore":0,"DisgustAvgScore":0,"JoyAvgScore":0}
         
-    
+    /*
+		Name - sendToApp
+		Description - Function which calculates the avg tweet score 
+		Parameters - brandname : Name of the brand for which we are getting the tweets.					 
+
+	*/ 
     function sendToApp(brandname)
     {
-        console.log("SENDTOAPP",brandname);
+        console.log("SENDTOAPP FUNCTION, and the brandname is ",brandname);
         return db.get(brandname).then((database_value) => {
             console.log(" DATA IN DATABASE -- >",database_value);
             var database_tweetscore = database_value.tweetscore;
             var tweetscore = {};
+            // calculating the average tweet score.
             for (var key in database_tweetscore){
                 tweetscore[key] = database_tweetscore[key]/tweetlength;
             }
             console.log("AFTER AVERAGE CALCULATION",tweetscore)
             request.message.tonescore = tweetscore;
             delete request.message.twitterfeed;
-            console.log(request.message,"INSIDE SENDTOAPP");
             return request;
             });
     }
 
+    /*
+		Name - api_call
+		Description - Function which does the toneanalyzer api call.							 
 
+	*/ 
     function api_call(){
         for (var i=0;i<twitterfeed.length;i++) 
             {
@@ -82,7 +94,7 @@ export default (request) => {
                     {
                      const body = JSON.parse(responses[j].body);
                         
-                        
+                        // Iterating through the tweets
                         for (var t=0;t<body.document_tone.tone_categories[0].tones.length;t++)
                         {
                             var scoredetails = body.document_tone.tone_categories[0].tones[t]
@@ -120,8 +132,9 @@ export default (request) => {
                         console.log("INDIVIDUAL",tonescoreDict);
                          
                     }
-                    console.log("FINAL",tonescoreDict);
 
+                    console.log("FINAL TONE SCORE",tonescoreDict);
+                    // storing the tonescore for that particular brandname in the database.
                     db.set(brandname,tonescoreDict);
                     var tweetscore_dict = {};
                     var tweetscore_apicall = {};
@@ -129,6 +142,7 @@ export default (request) => {
                     tweetscore_dict = tonescoreDict.tweetscore;
 
                     console.log(tweetscore_dict,tweetlength,"TWEET SCORE, TWEET LENGTH");
+                    // Calculating the average of the tweet score
                     for (var tweetkey in tweetscore_dict){
                         tweetscore_apicall[tweetkey] = tweetscore_dict[tweetkey]/tweetlength;
                     }
@@ -141,7 +155,7 @@ export default (request) => {
                     
                 });
                     
-            // return request;    
+                
            
     }
 
@@ -149,7 +163,8 @@ export default (request) => {
 
 
     return db.get(brandname).then((database_value) =>{
-    
+    	
+    	// checking if the brandname given is there in the database or not
         if (database_value)
         {
             var currentTime = date_const.getTime(); // Getting the Current time
@@ -159,12 +174,16 @@ export default (request) => {
             
             console.log("TIME DIFFERENCE IN MINUTES --> ",diff_inminutes);
             
+            // Checking if the last toneanalyzer call happend with in 15 mins or not
+            // if it is greater than 15 mins we will do fresh toneanalyzer api or else
+            // we will give the value that we got in the previous call.
              if (diff_inminutes>=TimeLimit)
             {
+                console.log("15 MIN ONCE");
                 return api_call().then((x)=>{
                     return request;
                 });                
-                console.log("15 MIN ONCE");
+                
             }
             else{
                 
@@ -174,13 +193,16 @@ export default (request) => {
                 
             }
         }
+        // if the brandname is not in the database, we will do a fresh toneanalyzer api call to get
+        // the tweet score for that new brandname.
         else{
+            console.log("FOR THE FIRST TIME");
             return api_call().then((x)=>{
                     return request;
                 }); 
-            console.log("FOR THE FIRST TIME");                 
+                             
         } 
         return request.ok();  
     });
-   // return request.ok(); 
+    
 };
