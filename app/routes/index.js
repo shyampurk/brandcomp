@@ -1,22 +1,36 @@
+/**************************************************************
+					
+					BRAND COMPARISON
+
+***************************************************************/
 var express = require('express');
 var Twitter = require('twitter');
 
-var router = express.Router(); 
+var router = express.Router();
+
+/////////////////////////
+// Twitter Access Keys //
+/////////////////////////
+
 var consumer_key = 'Gzw1GkaD7lbKHCN6ZqZMaGpui';
 var consumer_secret = 'pPvhPLpzJzy1DAWwuCzkTMOHJSHb3kT613wXCcCNdKdBZOwrsm';
 var access_token_key = '756133355905650688-B1QdpUgDq7agg6AJuZlktxl6lyrmDa4';
 var access_token_secret = 'ScZXDflko1qCUpbLBYMUHVQOmMvihUpB7rzlL13pdK6JJ';
 
-//////////////////
-// PUBNUB INIT  //
-//////////////////
+/////////////////////////
+// Pubnub Init & Keys  //
+/////////////////////////
 
 var pubnub = require("pubnub")({
     ssl           : true,  // <- enable TLS Tunneling over TCP
     publish_key   : "pub-c-578b72c9-0ca2-4429-b7d4-313bbdf9b335",
     subscribe_key : "sub-c-471f5e36-e1ef-11e6-ac69-0619f8945a4f"
 });
- 
+
+////////////////////////////
+// Create twitter client  //
+////////////////////////////
+
 var client = new Twitter({
   	consumer_key: consumer_key,
   	consumer_secret: consumer_secret,
@@ -26,11 +40,15 @@ var client = new Twitter({
 
 var tweetResulttype = 'mixed'; // only popular tweets
 var tweetLanguage = 'en'; // only english language tweets
-var count = 3; // limit tweets to 10
+var count = 3; // limit tweets to 3
 
 var brandList = []
 
 twitterapi_output = {};
+
+//////////////////////////////////////////////////////////////////////
+// Fetches tweets for requested brand names and publises to blocks  //
+//////////////////////////////////////////////////////////////////////
 
 router.post('/gettweet', function(req, res, next) {
 	console.log(req.body)
@@ -42,6 +60,10 @@ router.post('/gettweet', function(req, res, next) {
 	console.log(brandList)
 	var tweetArray1 = [];
 	var tweetArray2 = [];
+
+///////////////////////////////
+// Publish Tweets to blocks  //
+///////////////////////////////
 
 	function pubPublish(tweets){
     	pubnub.publish({
@@ -56,9 +78,13 @@ router.post('/gettweet', function(req, res, next) {
 		});
     } 
 
+//////////////////////////////////////////////////////
+// Publish Tweets to blocks for getting tone score  //
+//////////////////////////////////////////////////////
+
     var params = { q:brandList[0], result_type:tweetResulttype, lang:tweetLanguage, count:count };
 
-    client.get('search/tweets', params, function(error, tweets, response) {
+    client.get('search/tweets', params, function (error, tweets, response) {
 	    console.log("tweet length :",tweets.statuses.length);
 
 	    if (!error) {
@@ -110,7 +136,7 @@ router.post('/gettweet', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
 	
-    res.status(200).render('index', { title: 'Express'});
+    res.status(200).render('index', { title: 'Brand Comparison'});
 
 });
 
