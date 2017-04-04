@@ -73,7 +73,10 @@
 
 		var brand1score;
 		var brand1name;	
-
+/*********************************************************************************************
+	FUNCTION NAME : pubnub subscribe()
+    DESCRIPTION   : listens to 'realtimebrandmonitor' and sends brand scores to chart function
+***********************************************************************************************/
 		pubnub.subscribe({
 		    channel  : "realtimebrandmonitor",
 		    message : function(tweets) {
@@ -99,7 +102,10 @@
 		        
 		    }
 		});
-		
+/************************************************************************
+	FUNCTION EVENT : Submit on click event
+    DESCRIPTION    : Sends brand names to the server for fetching tweets
+*************************************************************************/		
 		$("#submit").click(function(event){ 
 			
 			if ($.trim($("#brand1").val()) === "" || $.trim($("#brand2").val()) === "") {
@@ -122,7 +128,10 @@
 		    }
 			
 		});
-
+/********************************************************************************
+	FUNCTION NAME : highchart()
+    DESCRIPTION   : Plots the graph on receiving brand scores from tone analyzer
+*********************************************************************************/
 		function highchart(brand1score,brand2score,brand1name,brand2name){
 			console.log(brand1name,brand2name)
 			$('#brand1').val(' ');
