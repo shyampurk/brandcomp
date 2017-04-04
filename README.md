@@ -15,4 +15,34 @@ Step 5 : Goto the [program](https://github.com/shyampurk/brandcomp/blob/master/B
 	username - line number 12 <br>
 	password - line number 13 <br>
 	
-You can check the following [link](https://www.ibm.com/watson/developercloud/tone-analyzer/api/v3/) to learn how to use the Toneanalyzer using curl/node/python/java.	
+You can check the following [link](https://www.ibm.com/watson/developercloud/tone-analyzer/api/v3/) to learn how to use the Toneanalyzer using curl/node/python/java.
+
+
+# Twitter api
+
+Step 1 : Login to https://apps.twitter.com/ with your valid twitter credentials
+![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/Twitter/t_1.png)
+Step 2 : Click on the "Create New App" button to create a new twitter application.
+![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/Twitter/t_2.png)
+Step 3 : Give the Application name and description about the application and give the website (give the dummy one if you dont have one) and click on "create your Twitter application"
+![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/Twitter/t_4.png)
+Step 4 : Once the app is created click on the "Keys and Access Tokens" and copy the <br>
+	1)Consumer Key <br>
+	2)Consumer Secret <br>
+![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/Twitter/t_5.png)	
+Step 5 : scroll down the page click on "create my access token" button.
+![alt-tag](https://github.com/shyampurk/brandcomp/blob/master/screenshots/Twitter/t_7.png)
+Step 6 : Once access token is created copy the <br>
+	3)Access Token <br>
+	4)Access Token Secret <br>
+
+These Four keys will be used for you to access the twitter api from your node app.
+
+Add these 4 parameters in the [code](https://github.com/shyampurk/brandcomp/blob/master/app/routes/index.js)
+and add these following parameters,<br>
+ 	1)Consumer Key  - line number 15 <br>
+	2)Consumer Secret  - line number 16 <br>
+	3)Access Token  - line number 17 <br>
+	4)Access Token Secret  - line number 18 <br>	
+
+
