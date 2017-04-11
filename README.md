@@ -10,7 +10,7 @@ You will need to update the credentials of these services in the code.
 The [web server](https://github.com/shyampurk/brandcomp/tree/master/App) can be hosted on any bare metal server that supports Node.js.
 The BLOCK [program](https://github.com/shyampurk/brandcomp/blob/master/Block/main.js) must be deployed on PubNub. Refer the [BLOCK provisioning guide](https://github.com/shyampurk/brandcomp/blob/master/Block/README.md) for details.
 
-Afte configuring all services, make sure that the PubNub keys are updated in the code as per your PubNub app subscription.
+After configuring all services, make sure that the PubNub keys are updated in the code as per your PubNub app subscription.
 
 # Setup Watson Tone Analyzer API
 
@@ -57,6 +57,9 @@ in these following lines,<br>
 	4)Access Token Secret  - line number 18 <br>	
 
 #Setup PubNub Keys
+
 Update the PubNub keys on the Node.js werver code in the following lines
+
 Line 26 : Your PubNub Publish Key
+
 Line 27 : Your PubNub Subscribe Key
