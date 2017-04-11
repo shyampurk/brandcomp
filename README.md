@@ -56,7 +56,7 @@ in these following lines,<br>
 	3)Access Token  - line number 17 <br>
 	4)Access Token Secret  - line number 18 <br>	
 
-#Setup PubNub Keys
+# Setup PubNub Keys
 
 Update the PubNub keys on the Node.js werver code in the following lines
 
