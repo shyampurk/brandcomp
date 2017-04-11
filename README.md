@@ -38,7 +38,7 @@ Step 6 : Once access token is created copy the <br>
 
 These Four keys will be used for you to access the twitter api from your node app.
 
-Add these 4 parameters in the [code](https://github.com/shyampurk/brandcomp/blob/master/app/routes/index.js)
+Add these 4 parameters in the [code](https://github.com/shyampurk/brandcomp/blob/master/App/routes/index.js)
 and add these following parameters,<br>
  	1)Consumer Key  - line number 15 <br>
 	2)Consumer Secret  - line number 16 <br>
