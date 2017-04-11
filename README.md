@@ -7,6 +7,11 @@ A web app for comparing the social media (Twitter) perception of two brands. Thi
 Clone this repository and configure the Watson Tone Analyzer and Twitter API to access those third party services.
 You will need to update the credentials of these services in the code.
 
+The [web server](https://github.com/shyampurk/brandcomp/tree/master/App) can be hosted on any bare metal server that supports Node.js.
+The BLOCK [program](https://github.com/shyampurk/brandcomp/blob/master/Block/main.js) must be deployed on PubNub. Refer the [BLOCK provisioning guide](https://github.com/shyampurk/brandcomp/blob/master/Block/README.md) for details.
+
+Afte configuring all services, make sure that the PubNub keys are updated in the code as per your PubNub app subscription.
+
 # Setup Watson Tone Analyzer API
 
 Step 1 : Login to the Bluemix account with the valid credentials, and goto Catalog.<br>
@@ -51,4 +56,7 @@ in these following lines,<br>
 	3)Access Token  - line number 17 <br>
 	4)Access Token Secret  - line number 18 <br>	
 
-
+#Setup PubNub Keys
+Update the PubNub keys on the Node.js werver code in the following lines
+Line 26 : Your PubNub Publish Key
+Line 27 : Your PubNub Subscribe Key
